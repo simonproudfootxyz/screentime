@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/simonproudfoot/Projects/screentime/src/app/error.tsx"],"sourcesContent":["\"use client\";\n\ntype ErrorPageProps = {\n  error: Error;\n  reset: () => void;\n};\n\nexport default function ErrorPage({ error, reset }: ErrorPageProps) {\n  return (\n    <main className=\"container\">\n      <section className=\"card\">\n        <h1>Something went wrong</h1>\n        <p className=\"error\">{error.message}</p>\n        <button onClick={reset}>Try again</button>\n      </section>\n    </main>\n  );\n}\n"],"names":["ErrorPage","error","reset","className","message","onClick"],"mappings":";;;;;AAAA;;AAOe,SAASA,UAAU,EAAEC,KAAK,EAAEC,KAAK,EAAkB;IAChE,qBACE,uNAAC;QAAKC,WAAU;kBACd,cAAA,uNAAC;YAAQA,WAAU;;8BACjB,uNAAC;8BAAG;;;;;;8BACJ,uNAAC;oBAAEA,WAAU;8BAASF,MAAMG,OAAO;;;;;;8BACnC,uNAAC;oBAAOC,SAASH;8BAAO;;;;;;;;;;;;;;;;;AAIhC;KAVwBF"}}]
+}
