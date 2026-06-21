@@ -33,13 +33,15 @@ body {
 
 .container {
   min-height: 100vh;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 24px;
 }
 
 .card {
-  width: min(720px, 100%);
+  width: 100%;
+  max-width: 720px;
   border-radius: 16px;
   background: var(--card);
   padding: 24px;
@@ -51,6 +53,12 @@ body {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+}
+
+.share-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
 }
 
 ul {

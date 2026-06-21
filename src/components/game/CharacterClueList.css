@@ -1,0 +1,10 @@
+.character-list {
+  gap: 0;
+
+  .character-list-item {
+    .character-list-item__punctuation {
+      color: var(--accent);
+      display: none;
+    }
+  }
+}

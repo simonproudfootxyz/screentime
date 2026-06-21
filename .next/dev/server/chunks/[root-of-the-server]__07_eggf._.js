@@ -134,7 +134,6 @@ const GAME_CONFIG = {
     initialSkips: 10,
     maxCharacterClues: 9,
     maxGuessesPerMovie: 5,
-    minRating: 6.5,
     minVoteCount: 100,
     language: "en-US",
     minGuessLengthForSubstring: 4,

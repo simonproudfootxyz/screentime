@@ -115,7 +115,7 @@ export function GamePageClient({ gameId }: Props) {
     return (
       <main className="container">
         <section className="card">
-          <h1>Movie Guessing Game</h1>
+          <h1>Screentime</h1>
           <p>Preparing your game...</p>
           {error ? <p className="error">{error}</p> : null}
         </section>
@@ -140,11 +140,14 @@ export function GamePageClient({ gameId }: Props) {
   const guessesRemaining = round
     ? GAME_CONFIG.maxGuessesPerMovie - round?.guesses.length
     : 0;
+  const releaseYear = round?.answer.releaseDate
+    ? new Date(round.answer.releaseDate).getFullYear()
+    : null;
 
   return (
     <main className="container">
       <section className="card">
-        <h1>Movie Guessing Game</h1>
+        <h1>Screentime</h1>
         <GameStatusBar
           guessesRemaining={guessesRemaining}
           skipsRemaining={session.skipsRemaining}
@@ -157,6 +160,9 @@ export function GamePageClient({ gameId }: Props) {
             {round.answer.description && (
               <section>
                 <h2>Description</h2>
+                <h4 className="subtle">
+                  <em>{releaseYear}</em>
+                </h4>
                 <p>{round.answer.description}</p>
               </section>
             )}
