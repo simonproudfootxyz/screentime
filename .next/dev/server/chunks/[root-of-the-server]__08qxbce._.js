@@ -131,8 +131,9 @@ __turbopack_context__.s([
     ()=>STORAGE_KEYS
 ]);
 const GAME_CONFIG = {
-    initialSkips: 5,
+    initialSkips: 10,
     maxCharacterClues: 9,
+    maxGuessesPerMovie: 5,
     minRating: 6.5,
     minVoteCount: 100,
     language: "en-US",
@@ -544,6 +545,24 @@ function ensureCurrentRound(session) {
     }
     return session.currentRound;
 }
+function applySkipForRound(session, round) {
+    const nextSkipsRemaining = session.skipsRemaining - 1;
+    const skippedRound = {
+        ...round,
+        skipped: true
+    };
+    return {
+        ...session,
+        skipsRemaining: Math.max(0, nextSkipsRemaining),
+        rounds: [
+            ...session.rounds,
+            skippedRound
+        ],
+        currentRound: skippedRound,
+        status: nextSkipsRemaining <= 0 ? "gameOver" : "inRound",
+        updatedAt: nowIso()
+    };
+}
 async function createNewSession(mode) {
     const createdAt = nowIso();
     return {
@@ -602,6 +621,9 @@ function applyGuess(session, guess) {
         ]
     };
     if (!result.isCorrect) {
+        if (updatedRound.guesses.length >= __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$config$2f$game$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["GAME_CONFIG"].maxGuessesPerMovie) {
+            return applySkipForRound(session, updatedRound);
+        }
         return {
             ...session,
             currentRound: updatedRound,
@@ -628,22 +650,7 @@ function applySkip(session) {
         throw new __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$server$2f$game$2f$game$2d$errors$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["InvalidSessionStateError"]("Cannot skip when game is not in a round.");
     }
     const current = ensureCurrentRound(session);
-    const nextSkipsRemaining = session.skipsRemaining - 1;
-    const skippedRound = {
-        ...current,
-        skipped: true
-    };
-    return {
-        ...session,
-        skipsRemaining: Math.max(0, nextSkipsRemaining),
-        rounds: [
-            ...session.rounds,
-            skippedRound
-        ],
-        currentRound: skippedRound,
-        status: nextSkipsRemaining <= 0 ? "gameOver" : "inRound",
-        updatedAt: nowIso()
-    };
+    return applySkipForRound(session, current);
 }
 }),
 "[project]/Projects/screentime/src/app/api/game/_shared.ts [app-route] (ecmascript)", ((__turbopack_context__) => {

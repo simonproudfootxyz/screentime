@@ -1,6 +1,7 @@
 export const GAME_CONFIG = {
-  initialSkips: 5,
+  initialSkips: 10,
   maxCharacterClues: 9,
+  maxGuessesPerMovie: 5,
   minRating: 6.5,
   minVoteCount: 100,
   language: "en-US",

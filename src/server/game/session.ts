@@ -16,6 +16,23 @@ function ensureCurrentRound(session: SessionState): Round {
   return session.currentRound;
 }
 
+function applySkipForRound(session: SessionState, round: Round): SessionState {
+  const nextSkipsRemaining = session.skipsRemaining - 1;
+  const skippedRound: Round = {
+    ...round,
+    skipped: true,
+  };
+
+  return {
+    ...session,
+    skipsRemaining: Math.max(0, nextSkipsRemaining),
+    rounds: [...session.rounds, skippedRound],
+    currentRound: skippedRound,
+    status: nextSkipsRemaining <= 0 ? "gameOver" : "inRound",
+    updatedAt: nowIso(),
+  };
+}
+
 export async function createNewSession(mode: GameMode): Promise<SessionState> {
   const createdAt = nowIso();
   return {
@@ -75,6 +92,10 @@ export function applyGuess(session: SessionState, guess: string): SessionState {
   };
 
   if (!result.isCorrect) {
+    if (updatedRound.guesses.length >= GAME_CONFIG.maxGuessesPerMovie) {
+      return applySkipForRound(session, updatedRound);
+    }
+
     return {
       ...session,
       currentRound: updatedRound,
@@ -102,18 +123,5 @@ export function applySkip(session: SessionState): SessionState {
   }
 
   const current = ensureCurrentRound(session);
-  const nextSkipsRemaining = session.skipsRemaining - 1;
-  const skippedRound: Round = {
-    ...current,
-    skipped: true,
-  };
-
-  return {
-    ...session,
-    skipsRemaining: Math.max(0, nextSkipsRemaining),
-    rounds: [...session.rounds, skippedRound],
-    currentRound: skippedRound,
-    status: nextSkipsRemaining <= 0 ? "gameOver" : "inRound",
-    updatedAt: nowIso(),
-  };
+  return applySkipForRound(session, current);
 }

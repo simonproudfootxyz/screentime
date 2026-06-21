@@ -20,6 +20,7 @@ import {
 } from "@/client/storage/session-store";
 import { createGameId } from "@/lib/game-id";
 import { SessionState } from "@/types/game";
+import { GAME_CONFIG } from "@/config/game";
 
 type Props = {
   gameId: string;
@@ -136,13 +137,16 @@ export function GamePageClient({ gameId }: Props) {
 
   const round = session.currentRound;
 
-  console.log({ round });
+  const guessesRemaining = round
+    ? GAME_CONFIG.maxGuessesPerMovie - round?.guesses.length
+    : 0;
 
   return (
     <main className="container">
       <section className="card">
         <h1>Movie Guessing Game</h1>
         <GameStatusBar
+          guessesRemaining={guessesRemaining}
           skipsRemaining={session.skipsRemaining}
           totalCorrect={session.totalCorrect}
           roundsPlayed={session.rounds.length}

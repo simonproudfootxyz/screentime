@@ -19,7 +19,8 @@ export default function Home() {
         <ul>
           <li>Click Start to create a brand new game URL.</li>
           <li>Submit guesses until you find the correct movie title.</li>
-          <li>You can skip rounds, but you only get 5 skips total.</li>
+          <li>You get 10 total skips for the full game.</li>
+          <li>Each movie allows up to 5 guesses before an automatic skip is used.</li>
         </ul>
         <button onClick={onStart}>Start Game</button>
       </section>
