@@ -14,6 +14,7 @@ const answerSchema = z.object({
   movieId: z.number().int().positive(),
   title: z.string().min(1),
   originalTitle: z.string().min(1),
+  description: z.string().optional(),
   releaseDate: z.string().optional(),
 });
 

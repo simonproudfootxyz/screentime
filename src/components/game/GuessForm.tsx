@@ -9,15 +9,27 @@ type GuessFormProps = {
 
 export function GuessForm({ onSubmitGuess, disabled }: GuessFormProps) {
   const [guess, setGuess] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const isDisabled = Boolean(disabled) || submitting;
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isDisabled) {
+      return;
+    }
+
     const value = guess.trim();
     if (!value) {
       return;
     }
-    await onSubmitGuess(value);
-    setGuess("");
+
+    try {
+      setSubmitting(true);
+      await onSubmitGuess(value);
+      setGuess("");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -27,10 +39,12 @@ export function GuessForm({ onSubmitGuess, disabled }: GuessFormProps) {
         value={guess}
         onChange={(event) => setGuess(event.target.value)}
         placeholder="Enter movie title"
-        disabled={disabled}
+        disabled={isDisabled}
         aria-label="Movie title guess"
+        name="guess"
+        id="guess-form__guess"
       />
-      <button type="submit" disabled={disabled}>
+      <button type="submit" disabled={isDisabled}>
         Submit Guess
       </button>
     </form>

@@ -11,5 +11,5 @@ export const GAME_CONFIG = {
 } as const;
 
 export const STORAGE_KEYS = {
-  session: "movie-guessing-game.session.v1",
+  sessionPrefix: "movie-guessing-game.session.v1",
 } as const;

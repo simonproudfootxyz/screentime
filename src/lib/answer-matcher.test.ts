@@ -12,6 +12,11 @@ describe("isGuessCorrect", () => {
     expect(result.isCorrect).toBe(true);
   });
 
+  it("matches single-token substring for sequel titles", () => {
+    const result = isGuessCorrect("moana", "Moana 2", "Moana 2");
+    expect(result.isCorrect).toBe(true);
+  });
+
   it("matches original title variant", () => {
     const result = isGuessCorrect("le fabuleux destin damelie poulain", "Amelie", "Le Fabuleux Destin d'Amelie Poulain");
     expect(result.isCorrect).toBe(true);

@@ -76,12 +76,13 @@ button:disabled {
 
 .guess-form {
   display: flex;
-  gap: 8px;
+  gap: 1rem;
+  flex-direction: column;
 }
 
 input {
   flex: 1;
-  border: 1px solid #334155;
+  border: 1px solid var(--accent);
   border-radius: 8px;
   padding: 10px;
   color: inherit;

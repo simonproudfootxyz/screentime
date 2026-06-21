@@ -36,5 +36,8 @@ describe("applySkip", () => {
     const next = applySkip(baseSession(1));
     expect(next.skipsRemaining).toBe(0);
     expect(next.status).toBe("gameOver");
+    expect(next.currentRound?.skipped).toBe(true);
+    expect(next.currentRound?.answer.title).toBe("Star Wars");
+    expect(next.rounds).toHaveLength(1);
   });
 });

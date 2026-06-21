@@ -1,12 +1,16 @@
 import { STORAGE_KEYS } from "@/config/game";
 import { SessionState } from "@/types/game";
 
-export function loadSession(): SessionState | null {
+function storageKey(gameId: string): string {
+  return `${STORAGE_KEYS.sessionPrefix}:${gameId}`;
+}
+
+export function loadSession(gameId: string): SessionState | null {
   if (typeof window === "undefined") {
     return null;
   }
 
-  const raw = window.localStorage.getItem(STORAGE_KEYS.session);
+  const raw = window.localStorage.getItem(storageKey(gameId));
   if (!raw) {
     return null;
   }
@@ -18,16 +22,16 @@ export function loadSession(): SessionState | null {
   }
 }
 
-export function saveSession(session: SessionState): void {
+export function saveSession(gameId: string, session: SessionState): void {
   if (typeof window === "undefined") {
     return;
   }
-  window.localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(session));
+  window.localStorage.setItem(storageKey(gameId), JSON.stringify(session));
 }
 
-export function clearSession(): void {
+export function clearSession(gameId: string): void {
   if (typeof window === "undefined") {
     return;
   }
-  window.localStorage.removeItem(STORAGE_KEYS.session);
+  window.localStorage.removeItem(storageKey(gameId));
 }

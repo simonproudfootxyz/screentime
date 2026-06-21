@@ -8,6 +8,7 @@ export type MovieAnswer = {
   movieId: number;
   title: string;
   originalTitle: string;
+  description?: string;
   releaseDate?: string;
 };
 

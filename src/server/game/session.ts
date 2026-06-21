@@ -108,21 +108,12 @@ export function applySkip(session: SessionState): SessionState {
     skipped: true,
   };
 
-  if (nextSkipsRemaining < 0) {
-    return {
-      ...session,
-      status: "gameOver",
-      currentRound: skippedRound,
-      updatedAt: nowIso(),
-    };
-  }
-
   return {
     ...session,
-    skipsRemaining: nextSkipsRemaining,
+    skipsRemaining: Math.max(0, nextSkipsRemaining),
     rounds: [...session.rounds, skippedRound],
     currentRound: skippedRound,
-    status: nextSkipsRemaining === 0 ? "gameOver" : "inRound",
+    status: nextSkipsRemaining <= 0 ? "gameOver" : "inRound",
     updatedAt: nowIso(),
   };
 }

@@ -78,6 +78,7 @@ const answerSchema = __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f
     movieId: __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$node_modules$2f$zod$2f$v4$2f$classic$2f$external$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__z$3e$__["z"].number().int().positive(),
     title: __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$node_modules$2f$zod$2f$v4$2f$classic$2f$external$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__z$3e$__["z"].string().min(1),
     originalTitle: __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$node_modules$2f$zod$2f$v4$2f$classic$2f$external$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__z$3e$__["z"].string().min(1),
+    description: __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$node_modules$2f$zod$2f$v4$2f$classic$2f$external$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__z$3e$__["z"].string().optional(),
     releaseDate: __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$node_modules$2f$zod$2f$v4$2f$classic$2f$external$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__z$3e$__["z"].string().optional()
 });
 const roundSchema = __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$node_modules$2f$zod$2f$v4$2f$classic$2f$external$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__z$3e$__["z"].object({
@@ -141,7 +142,7 @@ const GAME_CONFIG = {
     maxDiscoverPages: 20
 };
 const STORAGE_KEYS = {
-    session: "movie-guessing-game.session.v1"
+    sessionPrefix: "movie-guessing-game.session.v1"
 };
 }),
 "[project]/Projects/screentime/src/lib/answer-normalization.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
@@ -175,6 +176,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$sr
 var __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$lib$2f$answer$2d$normalization$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Projects/screentime/src/lib/answer-normalization.ts [app-route] (ecmascript)");
 ;
 ;
+function compact(normalized) {
+    return normalized.replace(/\s+/g, "");
+}
 function isGuessCorrect(guess, title, originalTitle) {
     const normalizedGuess = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$lib$2f$answer$2d$normalization$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["normalizeAnswer"])(guess);
     if (!normalizedGuess) {
@@ -189,16 +193,16 @@ function isGuessCorrect(guess, title, originalTitle) {
         title,
         originalTitle
     ].map(__TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$lib$2f$answer$2d$normalization$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["normalizeAnswer"]).filter(Boolean);
-    if (candidates.some((candidate)=>candidate === normalizedGuess)) {
+    const compactGuess = compact(normalizedGuess);
+    if (candidates.some((candidate)=>candidate === normalizedGuess || compact(candidate) === compactGuess)) {
         return {
             ok: true,
             isCorrect: true,
             normalizedGuess
         };
     }
-    const guessTokens = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$lib$2f$answer$2d$normalization$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["tokenizeAnswer"])(normalizedGuess);
-    const allowSubstring = normalizedGuess.length >= __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$config$2f$game$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["GAME_CONFIG"].minGuessLengthForSubstring && guessTokens.length >= __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$config$2f$game$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["GAME_CONFIG"].minGuessTokensForSubstring;
-    if (allowSubstring && candidates.some((candidate)=>candidate.includes(normalizedGuess))) {
+    const allowSubstring = normalizedGuess.length >= __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$config$2f$game$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["GAME_CONFIG"].minGuessLengthForSubstring;
+    if (allowSubstring && candidates.some((candidate)=>candidate.includes(normalizedGuess) || compact(candidate).includes(compactGuess))) {
         return {
             ok: true,
             isCorrect: true,
@@ -428,17 +432,44 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$sr
 ;
 ;
 ;
+function shuffle(items) {
+    const output = [
+        ...items
+    ];
+    for(let i = output.length - 1; i > 0; i -= 1){
+        const j = Math.floor(Math.random() * (i + 1));
+        [output[i], output[j]] = [
+            output[j],
+            output[i]
+        ];
+    }
+    return output;
+}
+function buildRandomPageOrder(totalPages) {
+    const maxPages = Math.max(1, Math.min(totalPages, __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$config$2f$game$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["GAME_CONFIG"].maxDiscoverPages));
+    return shuffle(Array.from({
+        length: maxPages
+    }, (_, index)=>index + 1));
+}
 function createRoundId(movieId) {
     return `${movieId}-${Date.now()}`;
 }
 async function selectNextRound(args) {
     const seen = new Set(args.seenMovieIds);
-    for(let page = 1; page <= __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$config$2f$game$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["GAME_CONFIG"].maxDiscoverPages; page += 1){
-        const discover = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$server$2f$tmdb$2f$discover$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["discoverMovies"])(args.mode, page);
+    const firstPage = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$server$2f$tmdb$2f$discover$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["discoverMovies"])(args.mode, 1);
+    const discoverByPage = new Map([
+        [
+            1,
+            firstPage
+        ]
+    ]);
+    const pagesToCheck = buildRandomPageOrder(firstPage.total_pages);
+    for (const page of pagesToCheck){
+        const discover = discoverByPage.get(page) ?? await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Projects$2f$screentime$2f$src$2f$server$2f$tmdb$2f$discover$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["discoverMovies"])(args.mode, page);
         if (!discover.results.length) {
-            break;
+            continue;
         }
-        for (const movie of discover.results){
+        for (const movie of shuffle(discover.results)){
             if (seen.has(movie.id)) {
                 continue;
             }
@@ -460,6 +491,7 @@ async function selectNextRound(args) {
                         movieId: details.id,
                         title: details.title,
                         originalTitle: details.original_title,
+                        description: details.overview,
                         releaseDate: details.release_date
                     },
                     guesses: [],
@@ -601,23 +633,15 @@ function applySkip(session) {
         ...current,
         skipped: true
     };
-    if (nextSkipsRemaining < 0) {
-        return {
-            ...session,
-            status: "gameOver",
-            currentRound: skippedRound,
-            updatedAt: nowIso()
-        };
-    }
     return {
         ...session,
-        skipsRemaining: nextSkipsRemaining,
+        skipsRemaining: Math.max(0, nextSkipsRemaining),
         rounds: [
             ...session.rounds,
             skippedRound
         ],
         currentRound: skippedRound,
-        status: nextSkipsRemaining === 0 ? "gameOver" : "inRound",
+        status: nextSkipsRemaining <= 0 ? "gameOver" : "inRound",
         updatedAt: nowIso()
     };
 }

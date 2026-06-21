@@ -15,6 +15,7 @@ export type TmdbMovieDetails = {
   id: number;
   title: string;
   original_title: string;
+  overview?: string;
   release_date?: string;
   adult: boolean;
   vote_average: number;

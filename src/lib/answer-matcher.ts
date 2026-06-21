@@ -1,6 +1,10 @@
 import { GAME_CONFIG } from "@/config/game";
-import { normalizeAnswer, tokenizeAnswer } from "@/lib/answer-normalization";
+import { normalizeAnswer } from "@/lib/answer-normalization";
 import { GuessResult } from "@/types/game";
+
+function compact(normalized: string): string {
+  return normalized.replace(/\s+/g, "");
+}
 
 export function isGuessCorrect(guess: string, title: string, originalTitle: string): GuessResult {
   const normalizedGuess = normalizeAnswer(guess);
@@ -14,17 +18,18 @@ export function isGuessCorrect(guess: string, title: string, originalTitle: stri
   }
 
   const candidates = [title, originalTitle].map(normalizeAnswer).filter(Boolean);
+  const compactGuess = compact(normalizedGuess);
 
-  if (candidates.some((candidate) => candidate === normalizedGuess)) {
+  if (candidates.some((candidate) => candidate === normalizedGuess || compact(candidate) === compactGuess)) {
     return { ok: true, isCorrect: true, normalizedGuess };
   }
 
-  const guessTokens = tokenizeAnswer(normalizedGuess);
-  const allowSubstring =
-    normalizedGuess.length >= GAME_CONFIG.minGuessLengthForSubstring &&
-    guessTokens.length >= GAME_CONFIG.minGuessTokensForSubstring;
+  const allowSubstring = normalizedGuess.length >= GAME_CONFIG.minGuessLengthForSubstring;
 
-  if (allowSubstring && candidates.some((candidate) => candidate.includes(normalizedGuess))) {
+  if (
+    allowSubstring &&
+    candidates.some((candidate) => candidate.includes(normalizedGuess) || compact(candidate).includes(compactGuess))
+  ) {
     return { ok: true, isCorrect: true, normalizedGuess };
   }
 
