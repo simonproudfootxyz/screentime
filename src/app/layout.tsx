@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Movie Guessing Game",
-  description: "Guess movies from TMDB character clues.",
+  title: "Screentime",
+  description: "Guess movies from TMDB character clues. Can you beat me?",
 };
 
 export default function RootLayout({

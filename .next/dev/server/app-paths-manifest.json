@@ -1,8 +1,0 @@
-{
-  "/[gameId]/page": "app/[gameId]/page.js",
-  "/api/game/guess/route": "app/api/game/guess/route.js",
-  "/api/game/next/route": "app/api/game/next/route.js",
-  "/api/game/skip/route": "app/api/game/skip/route.js",
-  "/api/game/start/route": "app/api/game/start/route.js",
-  "/page": "app/page.js"
-}
