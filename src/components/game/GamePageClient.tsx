@@ -167,7 +167,7 @@ export function GamePageClient({ gameId }: Props) {
               <section>
                 <h2>Description</h2>
                 <h4 className="subtle">
-                  <em>{releaseYear}</em>
+                  <em>({releaseYear})</em>
                 </h4>
                 <p>{round.answer.description}</p>
               </section>
