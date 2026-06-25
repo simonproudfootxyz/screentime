@@ -22,7 +22,10 @@ function shuffle<T>(items: T[]): T[] {
 }
 
 function buildRandomPageOrder(totalPages: number): number[] {
-  const maxPages = Math.max(1, Math.min(totalPages, GAME_CONFIG.maxDiscoverPages));
+  const maxPages = Math.max(
+    1,
+    Math.min(totalPages, GAME_CONFIG.maxDiscoverPages),
+  );
   return shuffle(Array.from({ length: maxPages }, (_, index) => index + 1));
 }
 
@@ -30,14 +33,17 @@ function createRoundId(movieId: number): string {
   return `${movieId}-${Date.now()}`;
 }
 
-export async function selectNextRound(args: SelectionArgs): Promise<NextRoundResult> {
+export async function selectNextRound(
+  args: SelectionArgs,
+): Promise<NextRoundResult> {
   const seen = new Set(args.seenMovieIds);
   const firstPage = await discoverMovies(args.mode, 1);
   const discoverByPage = new Map<number, typeof firstPage>([[1, firstPage]]);
   const pagesToCheck = buildRandomPageOrder(firstPage.total_pages);
 
   for (const page of pagesToCheck) {
-    const discover = discoverByPage.get(page) ?? (await discoverMovies(args.mode, page));
+    const discover =
+      discoverByPage.get(page) ?? (await discoverMovies(args.mode, page));
     if (!discover.results.length) {
       continue;
     }
@@ -48,7 +54,10 @@ export async function selectNextRound(args: SelectionArgs): Promise<NextRoundRes
       }
 
       try {
-        const [details, credits] = await Promise.all([getMovieDetails(movie.id), getMovieCredits(movie.id)]);
+        const [details, credits] = await Promise.all([
+          getMovieDetails(movie.id),
+          getMovieCredits(movie.id),
+        ]);
         const clues = extractCharacterClues(credits);
         if (clues.length === 0) {
           continue;

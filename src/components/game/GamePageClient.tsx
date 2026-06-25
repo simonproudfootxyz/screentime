@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CharacterClueList } from "@/components/game/CharacterClueList";
 import { GameOverCard } from "@/components/game/GameOverCard";
@@ -147,7 +148,11 @@ export function GamePageClient({ gameId }: Props) {
   return (
     <main className="container">
       <section className="card">
-        <h1>Screentime</h1>
+        <h1 className="card__title">
+          <Link href="/" className="card__title-link">
+            Screentime
+          </Link>
+        </h1>
         <GameStatusBar
           guessesRemaining={guessesRemaining}
           skipsRemaining={session.skipsRemaining}

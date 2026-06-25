@@ -2,6 +2,7 @@ import { GameMode } from "@/types/game-mode";
 
 export type MovieClue = {
   name: string;
+  actor: string;
 };
 
 export type MovieAnswer = {

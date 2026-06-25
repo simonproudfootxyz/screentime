@@ -8,7 +8,7 @@ type CharacterClueListProps = {
 export function CharacterClueList({ clues }: CharacterClueListProps) {
   return (
     <section>
-      <h2>Character clues</h2>
+      <h2>Characters</h2>
       <ul className="character-list">
         {clues.map((clue, index) => {
           const isLast = index === clues.length - 1;
