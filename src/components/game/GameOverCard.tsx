@@ -20,7 +20,7 @@ export function GameOverCard({
   const finalSkippedAnswer = session.currentRound?.skipped
     ? session.currentRound.answer.title
     : null;
-  const shareText = `I scored ${session.totalCorrect}/${session.rounds.length} in Screentime. Can you beat me?`;
+  const shareText = `I scored ${session.totalScore} points (${session.totalCorrect}/${session.rounds.length} correct) in Screentime. Can you beat me?`;
   const shareMessage = currentUrl ? `${shareText} ${currentUrl}` : shareText;
 
   function openShareWindow(url: string): void {
@@ -72,6 +72,7 @@ export function GameOverCard({
         </p>
       ) : null}
       <p>Total correct: {session.totalCorrect}</p>
+      <p>Total score: {session.totalScore}</p>
       <p>Rounds played: {session.rounds.length}</p>
       <section className="share-actions">
         <button onClick={shareOnX} disabled={!currentUrl}>

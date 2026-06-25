@@ -31,6 +31,7 @@ export type SessionState = {
   rounds: Round[];
   currentRound: Round | null;
   totalCorrect: number;
+  totalScore: number;
   createdAt: string;
   updatedAt: string;
 };

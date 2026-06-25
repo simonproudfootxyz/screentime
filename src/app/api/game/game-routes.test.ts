@@ -29,6 +29,7 @@ const mockSession = {
   rounds: [],
   currentRound: null,
   totalCorrect: 0,
+  totalScore: 0,
   createdAt: "2020-01-01T00:00:00.000Z",
   updatedAt: "2020-01-01T00:00:00.000Z",
 };

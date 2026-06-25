@@ -35,6 +35,7 @@ export const sessionStateSchema = z.object({
   rounds: z.array(roundSchema),
   currentRound: roundSchema.nullable(),
   totalCorrect: z.number().int().min(0),
+  totalScore: z.number().int().min(0),
   createdAt: z.string(),
   updatedAt: z.string(),
 });

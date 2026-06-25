@@ -152,6 +152,7 @@ export function GamePageClient({ gameId }: Props) {
           guessesRemaining={guessesRemaining}
           skipsRemaining={session.skipsRemaining}
           totalCorrect={session.totalCorrect}
+          totalScore={session.totalScore}
           roundsPlayed={session.rounds.length}
         />
 

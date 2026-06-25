@@ -19,6 +19,7 @@ function baseSession(skipsRemaining: number, existingGuesses: string[] = []): Se
       skipped: false,
     },
     totalCorrect: 0,
+    totalScore: 0,
     createdAt: now,
     updatedAt: now,
   };
@@ -54,5 +55,19 @@ describe("guess logic", () => {
     expect(next.currentRound?.skipped).toBe(true);
     expect(next.rounds).toHaveLength(1);
     expect(next.status).toBe("gameOver");
+  });
+
+  it("awards 5 points for a first-try correct guess", () => {
+    const next = applyGuess(baseSession(4), "Star Wars");
+    expect(next.currentRound?.solved).toBe(true);
+    expect(next.totalCorrect).toBe(1);
+    expect(next.totalScore).toBe(5);
+  });
+
+  it("awards 4 points for a second-try correct guess", () => {
+    const next = applyGuess(baseSession(4, ["wrong guess"]), "Star Wars");
+    expect(next.currentRound?.solved).toBe(true);
+    expect(next.totalCorrect).toBe(1);
+    expect(next.totalScore).toBe(4);
   });
 });

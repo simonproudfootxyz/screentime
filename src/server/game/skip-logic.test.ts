@@ -19,6 +19,7 @@ function baseSession(skipsRemaining: number): SessionState {
       skipped: false,
     },
     totalCorrect: 0,
+    totalScore: 0,
     createdAt: now,
     updatedAt: now,
   };

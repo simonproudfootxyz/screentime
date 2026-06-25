@@ -16,7 +16,14 @@ export function loadSession(gameId: string): SessionState | null {
   }
 
   try {
-    return JSON.parse(raw) as SessionState;
+    const session = JSON.parse(raw) as SessionState;
+    if (typeof session.totalScore !== "number") {
+      return {
+        ...session,
+        totalScore: 0,
+      };
+    }
+    return session;
   } catch {
     return null;
   }

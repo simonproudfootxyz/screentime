@@ -43,6 +43,7 @@ export async function createNewSession(mode: GameMode): Promise<SessionState> {
     rounds: [],
     currentRound: null,
     totalCorrect: 0,
+    totalScore: 0,
     createdAt,
     updatedAt: createdAt,
   };
@@ -107,12 +108,14 @@ export function applyGuess(session: SessionState, guess: string): SessionState {
     ...updatedRound,
     solved: true,
   };
+  const roundScore = GAME_CONFIG.maxGuessesPerMovie - updatedRound.guesses.length + 1;
 
   return {
     ...session,
     rounds: [...session.rounds, solvedRound],
     currentRound: solvedRound,
     totalCorrect: session.totalCorrect + 1,
+    totalScore: session.totalScore + roundScore,
     updatedAt: nowIso(),
   };
 }
