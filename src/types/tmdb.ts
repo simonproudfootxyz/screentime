@@ -16,7 +16,10 @@ export type TmdbMovieDetails = {
   title: string;
   original_title: string;
   overview?: string;
+  tagline?: string;
+  genres: Array<{ id: number; name: string }>;
   release_date?: string;
+  popularity: number;
   adult: boolean;
   vote_average: number;
   vote_count: number;
@@ -24,6 +27,7 @@ export type TmdbMovieDetails = {
 
 export type TmdbCastMember = {
   id: number;
+  name?: string;
   character?: string;
   order?: number;
 };

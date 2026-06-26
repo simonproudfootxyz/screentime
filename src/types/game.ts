@@ -10,7 +10,10 @@ export type MovieAnswer = {
   title: string;
   originalTitle: string;
   description?: string;
+  tagline?: string;
+  genres: string[];
   releaseDate?: string;
+  popularity: number;
 };
 
 export type Round = {

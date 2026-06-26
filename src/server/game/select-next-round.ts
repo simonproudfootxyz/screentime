@@ -65,13 +65,16 @@ export async function selectNextRound(
 
         const round: Round = {
           roundId: createRoundId(movie.id),
-          clues: clues.map((name) => ({ name })),
+          clues,
           answer: {
             movieId: details.id,
             title: details.title,
             originalTitle: details.original_title,
             description: details.overview,
+            tagline: details.tagline,
+            genres: details.genres.map((genre) => genre.name),
             releaseDate: details.release_date,
+            popularity: details.popularity,
           },
           guesses: [],
           solved: false,

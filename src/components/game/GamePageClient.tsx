@@ -144,6 +144,11 @@ export function GamePageClient({ gameId }: Props) {
   const releaseYear = round?.answer.releaseDate
     ? new Date(round.answer.releaseDate).getFullYear()
     : null;
+  const shouldShowReleaseYear = round.guesses.length > 0;
+  const shouldShowGenres = round.guesses.length > 1;
+  const shouldShowTagline = round.guesses.length > 2;
+  const shouldShowActorNames = round.guesses.length > 3;
+  console.log({ round });
 
   return (
     <main className="container">
@@ -163,16 +168,6 @@ export function GamePageClient({ gameId }: Props) {
 
         {round ? (
           <>
-            {round.answer.description && (
-              <section>
-                <h2>Description</h2>
-                <h4 className="subtle">
-                  <em>({releaseYear})</em>
-                </h4>
-                <p>{round.answer.description}</p>
-              </section>
-            )}
-            <CharacterClueList clues={round.clues} />
             <GuessForm
               onSubmitGuess={onGuess}
               disabled={loading || round.solved || round.skipped}
@@ -209,6 +204,34 @@ export function GamePageClient({ gameId }: Props) {
                 </button>
               </>
             ) : null}
+            {shouldShowReleaseYear && (
+              <section>
+                <h2>Release Year</h2>
+                <p>{releaseYear}</p>
+              </section>
+            )}
+            {round.answer.description && (
+              <section>
+                <h2>Description</h2>
+                <p>{round.answer.description}</p>
+              </section>
+            )}
+            {shouldShowGenres && (
+              <section>
+                <h2>Genres</h2>
+                <p>{round.answer.genres.join(", ")}</p>
+              </section>
+            )}
+            {shouldShowTagline && (
+              <section>
+                <h2>Tagline</h2>
+                <p>{round.answer.tagline}</p>
+              </section>
+            )}
+            <CharacterClueList
+              clues={round.clues}
+              shouldShowActorNames={shouldShowActorNames}
+            />
           </>
         ) : (
           <p>Loading next round...</p>

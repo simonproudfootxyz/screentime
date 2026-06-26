@@ -8,6 +8,7 @@ const gameModeSchema = z.discriminatedUnion("type", [
 
 const movieClueSchema = z.object({
   name: z.string().min(1),
+  actor: z.string().optional(),
 });
 
 const answerSchema = z.object({
@@ -15,7 +16,10 @@ const answerSchema = z.object({
   title: z.string().min(1),
   originalTitle: z.string().min(1),
   description: z.string().optional(),
+  tagline: z.string().optional(),
+  genres: z.array(z.string()).default([]),
   releaseDate: z.string().optional(),
+  popularity: z.number().nonnegative().default(0),
 });
 
 const roundSchema = z.object({
