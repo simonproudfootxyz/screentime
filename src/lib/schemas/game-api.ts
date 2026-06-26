@@ -8,7 +8,7 @@ const gameModeSchema = z.discriminatedUnion("type", [
 
 const movieClueSchema = z.object({
   name: z.string().min(1),
-  actor: z.string().optional(),
+  actor: z.string().default(""),
 });
 
 const answerSchema = z.object({

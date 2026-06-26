@@ -144,10 +144,11 @@ export function GamePageClient({ gameId }: Props) {
   const releaseYear = round?.answer.releaseDate
     ? new Date(round.answer.releaseDate).getFullYear()
     : null;
-  const shouldShowReleaseYear = round.guesses.length > 0;
-  const shouldShowGenres = round.guesses.length > 1;
-  const shouldShowTagline = round.guesses.length > 2;
-  const shouldShowActorNames = round.guesses.length > 3;
+  const guessCount = round?.guesses.length ?? 0;
+  const shouldShowReleaseYear = guessCount > 0;
+  const shouldShowGenres = guessCount > 1;
+  const shouldShowTagline = guessCount > 2;
+  const shouldShowActorNames = guessCount > 3;
   console.log({ round });
 
   return (
