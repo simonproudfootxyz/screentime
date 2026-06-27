@@ -210,6 +210,12 @@ export function GamePageClient({ gameId }: Props) {
                 <p>{releaseYear}</p>
               </section>
             )}
+            {shouldShowGenres && (
+              <section>
+                <h2>Genres</h2>
+                <p>{round.answer.genres.join(", ")}</p>
+              </section>
+            )}
             {shouldShowTagline && (
               <section>
                 <h2>Tagline</h2>
@@ -220,12 +226,6 @@ export function GamePageClient({ gameId }: Props) {
               <section>
                 <h2>Description</h2>
                 <p>{round.answer.description}</p>
-              </section>
-            )}
-            {shouldShowGenres && (
-              <section>
-                <h2>Genres</h2>
-                <p>{round.answer.genres.join(", ")}</p>
               </section>
             )}
             <CharacterClueList
