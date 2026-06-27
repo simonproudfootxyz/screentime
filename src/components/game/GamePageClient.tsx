@@ -149,7 +149,6 @@ export function GamePageClient({ gameId }: Props) {
   const shouldShowGenres = guessCount > 1;
   const shouldShowTagline = guessCount > 2;
   const shouldShowActorNames = guessCount > 3;
-  console.log({ round });
 
   return (
     <main className="container">
