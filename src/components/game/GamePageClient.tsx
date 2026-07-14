@@ -7,6 +7,7 @@ import { CharacterClueList } from "@/components/game/CharacterClueList";
 import { GameOverCard } from "@/components/game/GameOverCard";
 import { GameStatusBar } from "@/components/game/GameStatusBar";
 import { GuessForm } from "@/components/game/GuessForm";
+import { Button } from "@/components/ui/Button";
 import {
   guessRound,
   nextRound,
@@ -172,12 +173,13 @@ export function GamePageClient({ gameId }: Props) {
               onSubmitGuess={onGuess}
               disabled={loading || round.solved || round.skipped}
             />
-            <button
+            <Button
               onClick={onSkip}
               disabled={loading || round.solved || round.skipped}
+              variant="primaryInvert"
             >
               Skip (Reveal Answer)
-            </button>
+            </Button>
             {round.guesses.length > 0 ? (
               <p className="subtle">
                 Last guess:{" "}
@@ -189,9 +191,9 @@ export function GamePageClient({ gameId }: Props) {
                 <p className="subtle">
                   Correct! The answer was <strong>{round.answer.title}</strong>.
                 </p>
-                <button onClick={onContinue} disabled={loading}>
+                <Button onClick={onContinue} disabled={loading} variant="primary">
                   Next Movie
-                </button>
+                </Button>
               </>
             ) : null}
             {round.skipped ? (
@@ -199,9 +201,9 @@ export function GamePageClient({ gameId }: Props) {
                 <p className="subtle">
                   Skipped answer: <strong>{round.answer.title}</strong>
                 </p>
-                <button onClick={onContinue} disabled={loading}>
+                <Button onClick={onContinue} disabled={loading} variant="primary">
                   Next Movie
-                </button>
+                </Button>
               </>
             ) : null}
             {shouldShowReleaseYear && (

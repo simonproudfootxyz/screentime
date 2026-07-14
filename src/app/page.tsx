@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { createGameId } from "@/lib/game-id";
+import { Button } from "@/components/ui/Button";
 
 export default function Home() {
   const router = useRouter();
@@ -24,7 +25,9 @@ export default function Home() {
             Each movie allows up to 5 guesses before an automatic skip is used.
           </li>
         </ul>
-        <button onClick={onStart}>Start Game</button>
+        <Button onClick={onStart} variant="primary">
+          Start Game
+        </Button>
       </section>
     </main>
   );

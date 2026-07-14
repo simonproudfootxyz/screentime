@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { Button } from "@/components/ui/Button";
 
 type GuessFormProps = {
   onSubmitGuess: (guess: string) => Promise<void>;
@@ -43,10 +44,11 @@ export function GuessForm({ onSubmitGuess, disabled }: GuessFormProps) {
         aria-label="Movie title guess"
         name="guess"
         id="guess-form__guess"
+        className="guess-form__input"
       />
-      <button type="submit" disabled={isDisabled}>
+      <Button type="submit" disabled={isDisabled} variant="primary">
         Submit Guess
-      </button>
+      </Button>
     </form>
   );
 }

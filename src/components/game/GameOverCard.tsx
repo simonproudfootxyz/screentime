@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { SessionState } from "@/types/game";
+import { Button } from "@/components/ui/Button";
 
 type GameOverCardProps = {
   session: SessionState;
@@ -75,22 +76,34 @@ export function GameOverCard({
       <p>Total score: {session.totalScore}</p>
       <p>Rounds played: {session.rounds.length}</p>
       <section className="share-actions">
-        <button onClick={shareOnX} disabled={!currentUrl}>
+        <Button onClick={shareOnX} disabled={!currentUrl} variant="primaryInvert">
           Share on X
-        </button>
-        <button onClick={shareOnBluesky} disabled={!currentUrl}>
+        </Button>
+        <Button
+          onClick={shareOnBluesky}
+          disabled={!currentUrl}
+          variant="primaryInvert"
+        >
           Share on Bluesky
-        </button>
-        <button onClick={shareOnFacebook} disabled={!currentUrl}>
+        </Button>
+        <Button
+          onClick={shareOnFacebook}
+          disabled={!currentUrl}
+          variant="primaryInvert"
+        >
           Share on Facebook
-        </button>
-        <button onClick={() => void copyShareMessage()} disabled={!currentUrl}>
+        </Button>
+        <Button
+          onClick={() => void copyShareMessage()}
+          disabled={!currentUrl}
+          variant="primaryInvert"
+        >
           {copied ? "Copied!" : "Share Results"}
-        </button>
+        </Button>
       </section>
-      <button onClick={onStartNewGame} disabled={loading}>
+      <Button onClick={onStartNewGame} disabled={loading} variant="primary">
         Start New Game
-      </button>
+      </Button>
     </section>
   );
 }
